@@ -122,7 +122,7 @@ totalMuñecas = 20
 
 pesoTotalUltimoPedido = (totalPayasos * pesoPayaso) + (totalMuñecas * pesoMuñeca)
 
-
+print("El precio total del paquete será: " + str(round(pesoTotalUltimoPedido, 2)))
 
 """Ejercicio 11
 Imagina que acabas de abrir una nueva cuenta de ahorros que te ofrece el 4% de interés al año.
