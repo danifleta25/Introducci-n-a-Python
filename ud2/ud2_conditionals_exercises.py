@@ -1,6 +1,7 @@
 """Ejercicio 1
 Escribir un programa que pregunte al usuario su edad y muestre por pantalla si es mayor de edad
 o no."""
+from fileinput import close
 from ssl import create_default_context
 
 age = int(input("Ingrese su edad: "))
@@ -162,5 +163,7 @@ if dieta.lower() == "vegetariano":
     print("Ingredientes: Pimiento y tofu.")
 elif dieta.lower() == "no vegetariano":
     print("Ingredientes: Peperoni, Jamon y Salmon")
+    close();
 else:
     print("Introduce correctamente ""Vegetariano"" o ""No vegetariano""")
+    close();
