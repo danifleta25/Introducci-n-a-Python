@@ -103,12 +103,64 @@ print(statistics(numeros))
 Escribir una función que calcule el máximo común divisor de dos números y otra que calcule el
 mínimo común múl�plo"""
 
+def minimo(num1, num2):
+
+    greater = 0
+
+    if num1 > num2:
+        greater = num1
+    else:
+        greater = num2
+
+    while (greater % num1 != 0) or (greater % num2 != 0) :
+        greater += 1
+
+    return greater
+
+print(minimo(4, 6))
+
+
+def maximo_divisor(num1, num2):
+    maxim = 0
+
+    if num1 > num2:
+        maxim = num1 - 1
+    else:
+        maxim = num2 - 1
+
+    while(num1 % maxim != 0) or (num2 % maxim != 0):
+        maxim -= 1
+
+    return maxim
+
+print(maximo_divisor(12, 16))
 
 
 
 """Ejercicio 10
 Escribir una función que convierta un número decimal en binario y otra que convierta un número
 binario en decimal."""
+
+
+def binario_translate(num):
+
+    result = num
+    binar = []
+    while result > 0:
+        resto = result % 2
+        result = result // 2
+        binar.append(resto)
+
+    binar.reverse()
+    return binar
+
+print(binario_translate(13))
+
+
+
+
+
+
 
 """Ejercicio 11
 Escribir un programa que reciba una cadena de caracteres y devuelva un diccionario con cada
