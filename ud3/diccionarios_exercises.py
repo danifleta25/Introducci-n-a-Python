@@ -4,6 +4,7 @@
 Escribir un programa que guarde en una variable el diccionario {'Euro':'€', 'Dollar':'$', 'Yen':'¥'},
 pregunte al usuario por una divisa y muestre su símbolo o un mensaje de aviso si la divisa no
 está en el diccionario."""
+from fileinput import close
 
 divisas = {'Euro':'€', 'Dollar':'$', 'Yen':'¥'}
 user_option = input("Introduce la moneda: ")
@@ -23,7 +24,7 @@ tlf = int(input("Dime tu telefono: "))
 
 datos = {"nombre":name, "edad": age, "direccion":adress, "telefono":tlf}
 
-print(datos["nombre"] + " tiene " + str(datos["edad"]) + " años, vive en " + datos["direccion"] + " y su numero de telefono es " + str(datos["telefono"]))
+print(datos["nombre"] + " tiene " + str(datos["edad"]) + " años, vive en " + str(datos["direccion"]) + " y su numero de telefono es " + str(datos["telefono"]))
 
 
 """Ejercicio 3
@@ -109,8 +110,6 @@ while continuar:
     if respuesta == "N":
         continuar = False
 
-
-
 print("LISTA DE LA COMPRA")
 for clave, valor in cesta.items():
     print(clave, " - ", valor, "€")
@@ -119,8 +118,28 @@ for clave, valor in cesta.items():
 Escribir un programa que cree un diccionario de traducción español-inglés. El usuario introducirá
 las palabras en español e inglés separadas por dos puntos, y cada
 par <palabra>:<traducción> separados por comas. El programa debe crear un diccionario con las
-palabras y sus traducciones. Después pedirá una frase en español y u�lizará el diccionario para
+palabras y sus traducciones. Después pedirá una frase en español y utilizará el diccionario para
 traducirla palabra a palabra. Si una palabra no está en el diccionario debe dejarla sin traducir."""
+
+diccionario = {}
+palabras = input("Introduce una palabra y su traducción separadas por una coma: ")
+parejas = palabras.lower().split(",")
+
+for pareja in parejas:
+        separadas = pareja.split(":")
+        diccionario.update({separadas[0].strip():separadas[1].strip()})
+
+frase = input("Introduce una frase en español para traducir: ")
+frase = frase.split()
+traduccion = ""
+for palabra in frase:
+        if palabra.lower() in diccionario:
+            traduccion += diccionario[palabra.lower()] + " "
+        else:
+            traduccion += palabra + " "
+
+print(traduccion)
+
 
 """Ejercicio 9
 Escribir un programa que ges�one las facturas pendientes de cobro de una empresa. Las facturas
@@ -132,8 +151,32 @@ preguntará por el número de factura y se eliminará del diccionario. Después 
 el programa debe mostrar por pantalla la can�dad cobrada hasta el momento y la can�dad
 pendiente de cobro."""
 
+facturas = {}
+
+terminar = True
+print("BIENVENIDO AL PROGRAMA DE FACTURACIÓN")
+while terminar:
+    print("1) Añadir factura\n2) Pagar factura\n3)Terminar")
+    option = int(input("Seleccione un número"))
+    if option == 1:
+        num_factura = int(input("Introduce el numero de la factura a añadir: "))
+        coste = float(input("Introduce el coste de la factura: "))
+        facturas.update({num_factura:coste})
+        print("FACTURA AÑADIDA")
+    if option == 2:
+        num_factura = int(input("Introduce el numero de la factura a pagar: "))
+        facturas.pop(num_factura)
+        print("FACTURA ELIMINADA")
+    if option == 3:
+        print("CERRANDO EL PROGRAMA...")
+        terminar = False
+
+
+
+
+
 """Ejercicio 10
-Escribir un programa que permita ges�onar la base de datos de clientes de una empresa. Los
+Escribir un programa que permita gestionar la base de datos de clientes de una empresa. Los
 clientes se guardarán en un diccionario en el que la clave de cada cliente será su NIF, y el valor
 será otro diccionario con los datos del cliente (nombre, dirección, teléfono, correo, preferente),
 donde preferente tendrá el valor True si se trata de un cliente preferente. El programa debe
@@ -147,6 +190,68 @@ datos.
 4. Mostrar lista de todos los clientes de la base datos con su NIF y nombre.
 5. Mostrar la lista de clientes preferentes de la base de datos con su NIF y nombre.
 6. Terminar el programa."""
+
+clientes = {}
+
+#MENU
+option = ""
+print("GESTIÓN CLIENTES")
+while option != 6:
+    print("(1) Añadir cliente\n(2) Eliminar cliente\n(3) Mostrar cliente\n(4) Listar todos los clientes"
+          "\n(5) Listar clientes preferentes\n(6) Terminar")
+    option = int(input("Elige un número: "))
+
+    if option == 1:
+        nif = input("Introduce el NIF del cliente: ")
+        nombre = input("Introduce el nombre del cliente: ")
+        direccion = input("Introduce la direccion del cliente: ")
+        tlf = input("Introduce el telefono del cliente: ")
+        email = input("Introduce el email del cliente: ")
+        preferente = input("Preferente?(True/False)")
+        if preferente.lower() == "true":
+            preferente = True
+        if preferente.lower() == "false":
+            preferente = False
+        else:
+            print("Debes introducir \"True\" o \"False\"")
+
+        cliente = {
+            "Nombre":nombre,
+            "Direccion":direccion,
+            "Telefono":tlf,
+            "Correo":email,
+            "Preferente":preferente
+        }
+        clientes[nif] = cliente
+        print("Añadiendo cliente...")
+    if option == 2:
+        nif = input("Introduce el NIF del cliente a eliminar de la base de datos: ")
+        if nif in clientes:
+            clientes.pop(nif)
+            print("Cliente eliminado")
+        else:
+            print("El cliente no esta en la BD")
+    if option == 3:
+        nif = input("Introduce el NIF del cliente a mostrar: ")
+        if nif in clientes:
+            cliente = clientes[nif]
+            print(cliente)
+        else:
+            print("El cliente no esta en la BD")
+    if option == 4:
+        print("Mostrando lista completa de clientes: ")
+        for clave, valor in clientes.items():
+            print(clave, " - ", valor["Nombre"])
+    if option == 5:
+        for clave, valor in clientes.items():
+            if valor["Preferente"] == True:
+                print(clave, " - ", valor["Nombre"])
+    if option == 6:
+        print("Cerrando el programa")
+        break
+
+
+
 
 """Ejercicio 11
 El directorio de los clientes de una empresa está organizado en una cadena de texto como la de
